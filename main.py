@@ -6,16 +6,17 @@
 # /tiles/zoom/x/y.png
 
 import http.server
-import socketserver
+import threading
+
 
 PORT = 9000
 
-class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
+# simple multithreaded http server
+class HttpRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
-Handler = MyHttpRequestHandler
+server = http.server.HTTPServer(('', PORT), HttpRequestHandler)
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()
+server_thread = threading.Thread(target=server.serve_forever)
+server_thread.start()

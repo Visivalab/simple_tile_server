@@ -161,6 +161,7 @@ cython_debug/
 
 
 /t
-10/
-11/
-12/
+lighter/
+darker/
+
+*.jpg
